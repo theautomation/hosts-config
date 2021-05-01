@@ -36,3 +36,24 @@ sudo timedatectl set-timezone Europe/Amsterdam
 sudo apt update -y
 sudo apt upgrade -y
 ``` 
+
+#### Change the hostname and update the hosts file
+```bash
+#!/bin/bash 
+sudo nano /etc/hostname
+``` 
+Enter:
+dc1.stam.lan
+
+```bash
+#!/bin/bash 
+sudo nano /etc/hosts
+``` 
+Enter:
+192.168.1.4 dc1.stam.lan dc1
+
+```bash
+#!/bin/bash 
+sudo reboot
+``` 
+
