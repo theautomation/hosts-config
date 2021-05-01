@@ -65,3 +65,10 @@ sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.original
 #!/bin/bash 
 sudo samba-tool domain provision
 ``` 
+Realm [STAM.LAN]:\
+Domain [STAM]:\
+Server Role (dc, member, standalone) [dc]:\
+DNS backend (SAMBA_INTERNAL, BIND9_FLATFILE, BIND9_DLZ, NONE) [SAMBA_INTERNAL]:\
+DNS forwarder IP address (write 'none' to disable forwarding) [127.0.0.53]:  192.168.1.3\
+Administrator password:\
+Retype password:
