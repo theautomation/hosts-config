@@ -1,13 +1,13 @@
 ## Installation
 
-### Assign a static IP to the server. Ubuntu Server uses netplan for network management.
+#### Assign a static IP to the server. Ubuntu Server uses netplan for network management.
 
 ```bash
 #!/bin/bash
 sudo nano /etc/netplan/00-installer-config.yaml
 ```
 
-### Copy paste this in the 00-installer-config.yaml file.
+#### Copy paste this in the 00-installer-config.yaml file.
 ```bash
 network:
   version: 2
@@ -22,7 +22,7 @@ network:
         search: []
 ``` 
  
- ### Set correct timezone on host.
+#### Set correct timezone on host.
 ```bash
 #!/bin/bash 
 sudo timedatectl set-timezone Europe/Amsterdam
