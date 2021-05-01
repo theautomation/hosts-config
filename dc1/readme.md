@@ -117,7 +117,7 @@ sudo samba-tool domain level show
 sudo rm -f /etc/resolv.conf && sudo nano /etc/resolv.conf
 ``` 
 
-### Active Directory is now ready! Try joining a Windows 10 PC to your AD domain.
+### Active Directory is now ready! Try joining a Windows 10 PC to the AD domain.
 
 #### This is how you create a user
 ```bash
