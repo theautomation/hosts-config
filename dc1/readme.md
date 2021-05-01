@@ -116,6 +116,8 @@ sudo samba-tool domain level show
 #!/bin/bash 
 sudo rm -f /etc/resolv.conf && sudo nano /etc/resolv.conf
 ``` 
+nameserver 127.0.0.1\
+domain stam.lan
 
 ### Active Directory is now ready! Try joining a Windows 10 PC to the AD domain.
 
