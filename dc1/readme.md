@@ -110,3 +110,17 @@ sudo systemctl enable --now samba-ad-dc
 #!/bin/bash 
 sudo samba-tool domain level show
 ``` 
+
+#### Recreate the dns nameserver file
+```bash
+#!/bin/bash 
+sudo rm -f /etc/resolv.conf && sudo nano /etc/resolv.conf
+``` 
+
+### Active Directory is now ready! Try joining a Windows 10 PC to your AD domain.
+
+#### This is how you create a user
+```bash
+#!/bin/bash 
+sudo samba-tool user create pietje
+``` 
