@@ -42,15 +42,15 @@ sudo apt upgrade -y
 #!/bin/bash 
 sudo nano /etc/hostname
 ``` 
-Enter:
 dc1.stam.lan
+
 
 ```bash
 #!/bin/bash 
 sudo nano /etc/hosts
 ``` 
-Enter:
 192.168.1.4 dc1.stam.lan dc1
+
 
 ```bash
 #!/bin/bash 
