@@ -52,8 +52,8 @@ sudo reboot
 #!/bin/bash 
 sudo apt -y install samba krb5-config winbind smbclient
 ``` 
-Kerberos Realm: STAM.LAN
-Kerberos servers for your realm: dc1.stam.lan
+Kerberos Realm: STAM.LAN\
+Kerberos servers for your realm: dc1.stam.lan\
 Administrative server for your Kerberos realm: dc1.stam.lan
 #### Backup the original SAMBA config file
 ```bash
