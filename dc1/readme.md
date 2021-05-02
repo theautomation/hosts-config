@@ -5,28 +5,45 @@
 #!/bin/bash
 sudo nano /etc/netplan/00-installer-config.yaml
 ```
-
 #### Copy paste this in the 00-installer-config.yaml file
 ```bash
+# THIS IS THE NETWORK CONFIG OF THE HOST
 network:
   version: 2
-	@@ -21,20 +21,20 @@ network:
+  ethernets:
+    ens18:
+      dhcp4: no
+      addresses:
+      - 192.168.1.4/24
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses: 192.168.1.3
         search: []
 ``` 
+#### Test the 00-installer-config.yaml file
+```bash
+#!/bin/bash 
+sudo netplan try
+``` 
+
+#### Apply netplan
+```bash
+#!/bin/bash 
+sudo netplan apply
+``` 
+
 
 #### Set correct timezone on host
 ```bash
 #!/bin/bash 
 sudo timedatectl set-timezone Europe/Amsterdam
 ``` 
-
 #### Update and upgrade
 ```bash
 #!/bin/bash 
 sudo apt update -y
 sudo apt upgrade -y
 ``` 
-
 #### Change the hostname and update the hosts file
 ```bash
 #!/bin/bash 
