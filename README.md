@@ -18,7 +18,7 @@ After "Command (m for help):", enter: p
 After "Command (m for help):", enter: d
 ``` 
 ```bash
-After "Partition number 1,9, default 9):", enter the partition number: 5
+After "Partition number 1,9, default 9):", enter the partition number: 9
 ``` 
 #### To save the changes:
 ```bash
