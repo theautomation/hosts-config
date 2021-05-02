@@ -67,8 +67,8 @@ sudo reboot
 #!/bin/bash 
 sudo apt -y install samba krb5-config winbind smbclient
 ``` 
-Kerberos Realm: AD-STAM.lan
-Kerberos servers for your realm: dc1.ad-stam.lan
+Kerberos Realm: AD-STAM.lan\
+Kerberos servers for your realm: dc1.ad-stam.lan\
 Administrative server for your Kerberos realm: dc1.ad-stam.lan
 #### Backup the original SAMBA config file
 ```bash
@@ -80,12 +80,12 @@ sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.original
 #!/bin/bash 
 sudo samba-tool domain provision
 ``` 
-Realm [AD-STAM.LAN]:
-Domain [AD-STAM]:
-Server Role (dc, member, standalone) [dc]:
-DNS backend (SAMBA_INTERNAL, BIND9_FLATFILE, BIND9_DLZ, NONE) [SAMBA_INTERNAL]:
-DNS forwarder IP address (write 'none' to disable forwarding) [127.0.0.53]: 192.168.1.3
-Administrator password:
+Realm [AD-STAM.LAN]:\
+Domain [AD-STAM]:\
+Server Role (dc, member, standalone) [dc]:\
+DNS backend (SAMBA_INTERNAL, BIND9_FLATFILE, BIND9_DLZ, NONE) [SAMBA_INTERNAL]:\
+DNS forwarder IP address (write 'none' to disable forwarding) [127.0.0.53]: 192.168.1.3\
+Administrator password:\
 Retype password:
 
 #### Copy the Kerberos config file
