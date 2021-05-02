@@ -19,6 +19,11 @@ echo "DPkg::Post-Invoke { \"dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxli
 apt --reinstall install proxmox-widget-toolkit
 ``` 
 
+### Destroy a ZFS pool
+```bash
+zpool destroy <poolname>
+``` 
+
 
 ### Delete or create partition(s)
 #### Start fdisk on sda
@@ -41,9 +46,4 @@ After "Partition number 1,9, default 9):", enter the partition number: 9
 #### To save the changes:
 ```bash
 After "Command (m for help):" enter: w
-``` 
-
-### Destroy a ZFS pool
-```bash
-zpool destroy <poolname>
 ``` 
