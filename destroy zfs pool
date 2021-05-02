@@ -1,2 +1,0 @@
-# Destroy a ZFS pool.
-zpool destroy slow-storage
