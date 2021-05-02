@@ -25,3 +25,7 @@ After "Partition number 1,9, default 9):", enter the partition number: 9
 After "Command (m for help):" enter: w
 ``` 
 
+### Destroy a ZFS pool
+```bash
+zpool destroy <poolname>
+``` 
