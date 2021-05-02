@@ -48,7 +48,15 @@ sudo apt upgrade -y
 ```bash
 #!/bin/bash 
 sudo nano /etc/hostname
-	@@ -51,9 +51,9 @@ sudo nano /etc/hosts
+``` 
+dc1.ad-stam.lan
+```bash
+#!/bin/bash 
+sudo nano /etc/hosts
+``` 
+192.168.1.4 dc1.ad-stam.lan dc1
+```bash
+#!/bin/bash 
 sudo reboot
 ``` 
 
