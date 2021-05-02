@@ -1,4 +1,4 @@
-# Proxmox Virtual Environment installed on bare metal.
+# Proxmox Virtual Environment
 
 ## PVE maintenance
 
