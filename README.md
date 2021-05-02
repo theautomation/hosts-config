@@ -2,11 +2,16 @@
 
 ## PVE maintenance
 
-#### To start fdisk on sda:
-'''
+### Delete or create partition(s)
+#### Start fdisk on sda
+```bash
 fdisk /dev/sda
-'''
-To load the current partition table to check the number of the partition that needs to be deleted:
+``` 
+
+Load the current partition table to check the number of the partition that needs to be deleted
+```bash
+fdisk /dev/sda
+``` 
 After "Command (m for help):", enter: p
 To delete /dev/sda5:
 After "Command (m for help):", enter: d
