@@ -66,10 +66,10 @@ sudo reboot
 ```bash
 #!/bin/bash 
 sudo apt -y install samba krb5-config winbind smbclient
-	@@ -62,12 +62,12 @@ Kerberos Realm: STAM.LAN\
-Kerberos servers for your realm: dc1.stam.lan\
-Administrative server for your Kerberos realm: dc1.stam.lan
-
+``` 
+Kerberos Realm: AD-STAM.lan
+Kerberos servers for your realm: dc1.ad-stam.lan
+Administrative server for your Kerberos realm: dc1.ad-stam.lan
 #### Backup the original SAMBA config file
 ```bash
 #!/bin/bash 
@@ -79,8 +79,13 @@ sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.original
 ```bash
 #!/bin/bash 
 sudo samba-tool domain provision
-	@@ -81,47 +81,47 @@ DNS forwarder IP address (write 'none' to disable forwarding) [127.0.0.53]:  192
-Administrator password:\
+``` 
+Realm [AD-STAM.LAN]:
+Domain [AD-STAM]:
+Server Role (dc, member, standalone) [dc]:
+DNS backend (SAMBA_INTERNAL, BIND9_FLATFILE, BIND9_DLZ, NONE) [SAMBA_INTERNAL]:
+DNS forwarder IP address (write 'none' to disable forwarding) [127.0.0.53]: 192.168.1.3
+Administrator password:
 Retype password:
 
 #### Copy the Kerberos config file
@@ -119,7 +124,7 @@ sudo samba-tool domain level show
 sudo rm -f /etc/resolv.conf && sudo nano /etc/resolv.conf
 ``` 
 nameserver 127.0.0.1\
-domain stam.lan
+domain ad-stam.lan
 
 ### Active Directory is now ready! Try joining a Windows 10 PC to the AD domain.
 
