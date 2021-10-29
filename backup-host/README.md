@@ -71,6 +71,15 @@ ssh-copy-id -p 2244 coen@<remote ip address>
 
 12. Deny login with password, uncomment "`#PasswordAuthentication no`" in `/etc/ssh/sshd_config.d/custom.conf`
 
+13. Create config file on the host machine `/home/coen/.ssh/config`
+
+```
+Host backup-host
+    HostName <remote ipaddress>
+    User coen
+    Port 2244
+```
+
 ## Setup ZFS
 
 1. Install zfs
@@ -122,3 +131,9 @@ errors: No known data errors
 ```
 
 6. The newly created pool is mounted at `/backup-pool/`
+
+7. change the owner of the mountpoint recursively
+
+```bash
+sudo chown -R $USER:$USER /backup-pool
+```
