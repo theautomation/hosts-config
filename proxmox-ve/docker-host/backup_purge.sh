@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # rsync info at https://linux.die.net/man/1/rsync
+# tar info at https://linux.die.net/man/1/tar
 # this sript will backup files and folders from local host machine to a remote machine over ssh
 # script writtin by Coen Stam 
 # github@theautomation.nl
@@ -9,26 +10,19 @@
 # exit if an error occurs
 set -e
 
-## rsync variables for synchronization
-# rsync source path being copied
-rsync_sourcepath="/mnt/slow-storage/coen
-                  /mnt/slow-storage/anne"
-# destination path for rsync
-rsync_destinationpath="/backup-pool/rsync"
+
 # rsync options
-rsync_options="--archive --partial --progress --verbose"
+rsync_options="--archive --partial --stats --verbose"
 # exclude files and/or folders for rsync
 rsync_exclude=
-
-## tar variables for purge
 # source path tarball with tar
-tar_sourcepath="/home/coen/docker-home-services/"
+tar_sourcepath="/home/coen/docker-home-services/adguard-home"
 # destination path for tar file
 tar_destinationpath="/backup-pool/purge/"
 # tar options
-tar_options="--create"
+tar_options="--create --gzip"
 # tar filename
-tar_name="$(date '+%y-%m-%d').tar"
+tar_name="$(date '+%y-%m-%d').tar.gz"
 # temporary directory for tar file
 tar_tempdir="/mnt/slow-storage/temp"
 
@@ -40,19 +34,21 @@ remotehost="192.168.1.234"
 # remote ssh port
 remoteport="2244"
 
-echo "starting backup..."
+echo "starting sript..."
 
 # upload tar files to remote backup host and purge old ones
 if [ ! -d ${tartempdir} ]; then
   mkdir ${tartempdir}
   echo "created temporary directory for tar file in ${tar_tempdir}"
+else 
+  echo "no temporary directory is made, it was already there ${tar_tempdir}"
 fi
 
+echo "starting tar..."
 tar ${tar_options} --file ${tar_tempdir}/${tar_name} ${tar_sourcepath}
 
-rsync ${rsync_options} --remove-sent-files -e "ssh -p ${remoteport}" ${tar_tempdir}/*.tar ${remoteuser}@${remotehost}:${tar_destinationpath}
+echo "start sending tar..."
+rsync ${rsync_options} --remove-sent-files -e "ssh -p ${remoteport}" ${tar_tempdir}/*.tar* ${remoteuser}@${remotehost}:${tar_destinationpath}
 
-ssh -p ${remoteport} ${remoteuser}@${remotehost} "find ${tar_destinationpath} -type f -mtime +31 -name *.tar -delete"
-
-# syncronise to remote backup host 
-rsync ${rsync_options} -e "ssh -p 2244" ${rsync_sourcepath} ${remoteuser}@${remotehost}:${rsync_destinationpath}
+echo "start deleting old tar on remote machine..."
+ssh -p ${remoteport} ${remoteuser}@${remotehost} "find ${tar_destinationpath} -type f -mtime +31 -name *.tar* -delete"
