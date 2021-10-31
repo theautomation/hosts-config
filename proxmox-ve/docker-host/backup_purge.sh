@@ -11,7 +11,7 @@ set -e
 # select if ssh configuation from /.ssh/config must be used or not.
 # 1 = use the user, host and port from a ssh config file stored in /.ssh/config.
 # 0 = use ssh variables user, host and port from the variables below.
-ssh_config="1"
+ssh_config="0"
 
 # if ssh_config => 1 
 # remote hostname from .ssh/config.
@@ -23,7 +23,7 @@ remote_user="coen"
 # ip address of the remote host.
 remote_host="192.168.1.234"
 # remote ssh port.
-remote_port="2244"
+remote_port=2244
 
 # rsync options in command (optional).
 # more options can be found at https://linux.die.net/man/1/rsync
