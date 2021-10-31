@@ -1,44 +1,60 @@
 #!/bin/bash
 #
-# rsync info at https://linux.die.net/man/1/rsync
-# tar info at https://linux.die.net/man/1/tar
-# this sript will backup files and folders from local host machine to a remote machine over ssh
-# script writtin by Coen Stam 
+# this script will tarball and backup files and folders from local host machine to a remote machine over ssh.
+# script writtin by Coen Stam.
 # github@theautomation.nl
 #
 
-# exit if an error occurs
 set -e
 
-# rsync options
+# ----------------------------------------------------------------------------------- 
+# select if ssh configuation from /.ssh/config must be used or not.
+# 1 = use the user, host and port from a ssh config file stored in /.ssh/config.
+# 0 = use ssh variables user, host and port from the variables below.
+ssh_config="1"
+
+# if ssh_config => 1 
+# remote hostname from .ssh/config.
+remote_host_from_config="backup-host"
+
+# if ssh_config => 0
+# user of the remote host.
+remote_user="coen"
+# ip address of the remote host.
+remote_host="192.168.1.234"
+# remote ssh port.
+remote_port="2244"
+
+# rsync options in command (optional).
+# more options can be found at https://linux.die.net/man/1/rsync
 rsync_options="--archive --partial --stats --verbose --remove-sent-files"
-# absolute path of the exclude list for rsync as external file.
+
+# absolute path of the exclude list location for rsync as external file.
 rsync_excludelist="/home/coen/hosts-config/proxmox-ve/docker-host/backup_exclude"
-# absolute path to tarball with tar
+
+# absolute path to source location for tarball with tar.
 tar_sourcepath="/home/coen/docker-home-services/adguard-home"
-# absolute destination path for saving tar file
+
+# absolute destination path for saving tar file.
 tar_destinationpath="/backup-pool/coen/purge/"
-# tar options
+
+# tar options in command (optional)
+# more options can be found at https://linux.die.net/man/1/tar
 tar_options="--create --gzip --verbose"
-# tar filename
+
+# filename of the tar file.
 tar_name="$(date '+%y-%m-%d').tar.gz"
+
 # temporary directory for tar file
+# the tar file will be deleted when the rsync command has run successfull in this script.
 tar_tempdir="/mnt/slow-storage/temp"
 
-# user of the remote machine 
-remoteuser="coen" #optional
-# ip address of the remote machine 
-remotehost="192.168.1.234" #optional
-# remote ssh port
-remoteport="2244" #optional
-# uncomment the command below when the above <user>, <host>, <port> is used
-rsync_command_1="$(rsync ${rsync_options} --exclude-from="${rsync_excludelist}" --delete-excluded -e 'ssh -p ${remoteport}' ${tar_tempdir}/*.tar* ${remoteuser}@${remotehost}:${tar_destinationpath}"
+# number of days to keep tar files on backup.
+# e.g. "+31" will delete tar file(s) older than 31 days, "-1" delete tar file(s) less than 1 day.
+tar_days="+31"
 
-# remote host from .ssh/config
-remotehostfromconfig="backup-host"
-
-echo "Starting backup of ${tar_sourcepath}."
-
+# -----------------------------------------------------------------------------------
+tarball_function () {
 if [ ! -d ${tartempdir} ]; then
   mkdir ${tartempdir}
   echo "created temporary directory for tar file in ${tar_tempdir}."
@@ -49,25 +65,38 @@ if [ ! -f ${rsync_excludelist} ]; then
   exit 1
 fi
 
-echo "starting tar ..."
+echo "starting tar..."
 tar ${tar_options} --file ${tar_tempdir}/${tar_name} ${tar_sourcepath}
+}
 
-echo "start sending tar with rsync ..."
+echo "Starting backup of ${tar_sourcepath}."
 
-# using rsync command with host, ip, port from script variable else from .ssh.config file.
-if rsync_command_1; then
-  echo "start rsync with host, ip, port from script variable ..."
-else
+if [ "${ssh_config}" = "1" ]; then
   if [ ! -f ${HOME}/.ssh/config ]; then
-    echo "script stopped, ther is no .ssh config file in ${HOME}/.ssh/, please set <user>, <host>, <port> in the variables."
+    echo "script stopped, ssh_config is set to 1 but there is no .ssh config file found in ${HOME}/.ssh/, create ssh config file or set ssh_config => 0 to use <user>, <host>, <port> from the variables in this script."
     exit 2
+  elif [ -z "${remote_host_from_config}" ]; then
+    echo "script stopped, ssh_config is set to 1 but backup_host variable is empty."
+    exit 3
+  else
+  tarball_function
+  echo "starting rsync using ssh config file"
+  rsync ${rsync_options} --exclude-from="${rsync_excludelist}" --delete-excluded ${tar_tempdir}/*.tar* ${remote_host_from_config}:${tar_destinationpath}
   fi
- echo "start rsync with <user>, <host>, <port> from .ssh/config ..."
- rsync ${rsync_options} --exclude-from="${rsync_excludelist}" --delete-excluded ${tar_tempdir}/*.tar* ${remotehostfromconfig}:${tar_destinationpath}
+    echo "start rsync with <user>, <host>, <port> from .ssh/config..."
+elif [ "${ssh_config}" = "0" ]; then
+  if [ -z "${remote_user}" ] || [ -z "${remote_host}" ] || [ -z "${remote_port}" ]; then
+  echo "script stopped, ssh_config is set to 0 but one or more variables for are undefined, check remote user, host and port variable(s)"
+  exit 4
+  else
+  tarball_function
+  echo "start rsync with ${remote_user}, ${remote_host}, ${remote_port} from script variable..."
+  rsync ${rsync_options} --exclude-from="${rsync_excludelist}" --delete-excluded -e "ssh -p ${remote_port}" ${tar_tempdir}/*.tar* ${remote_user}@${remote_host}:${tar_destinationpath}
+  fi
 fi
 
-echo "deleting older tar files on remote machine ..."
-ssh -p ${remoteport} ${remoteuser}@${remotehost} "find ${tar_destinationpath} -type f -mtime +31 -name *.tar* -delete"
-echo "all done..."
+echo "deleting tar files on remote machine older than ${tar_days} days..."
+ssh -p ${remote_port} ${remote_user}@${remote_host} "find ${tar_destinationpath} -type f -mtime ${tar_days} -name *.tar* -ls -delete"
 
+echo "all done..."
 exit 0
