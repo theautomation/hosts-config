@@ -12,14 +12,14 @@ set -e
 
 ## rsync variables for synchronization
 # rsync source path being copied
-rsync_sourcepath="/mnt/slow-storage/coen
-                  /mnt/slow-storage/anne"
+rsync_sourcepath="/mnt/slow-storage/coen/
+                  /mnt/slow-storage/anne/"
 # destination path for rsync
-rsync_destinationpath="/backup-pool/rsync"
+rsync_destinationpath="/backup-pool/coen/rsync"
 # rsync options
 rsync_options="--archive --partial --stats --verbose"
-# exclude files and/or folders for rsync
-rsync_exclude=
+# exclude files and/or folders for rsync, rsync use relative paths under source path
+rsync_excludelist="backup_exclude"
 
 # user of the remote machine
 remoteuser="coen"
@@ -31,4 +31,4 @@ remoteport="2244"
 echo "starting sript..."
 
 # syncronise to remote backup host 
-rsync ${rsync_options} -e "ssh -p 2244" ${rsync_sourcepath} ${remoteuser}@${remotehost}:${rsync_destinationpath}
+rsync ${rsync_options} --exclude-from="${rsync_excludelist}" --delete-excluded -e "ssh -p 2244" ${rsync_sourcepath} ${remoteuser}@${remotehost}:${rsync_destinationpath}
