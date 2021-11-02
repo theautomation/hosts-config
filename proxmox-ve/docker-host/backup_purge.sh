@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# this script will tarball and backup files and folders from local host machine to a remote machine over ssh.
+# this script will tarball and backup files and folders from local machine to a remote machine over ssh.
 # script writtin by Coen Stam.
 # github@theautomation.nl
 #
@@ -10,7 +10,7 @@ set -e
 # ----------------------------------------------------------------------------------- 
 # select if ssh configuation from /.ssh/config must be used or not.
 # 1 = use the user, host and port from a ssh config file stored in /.ssh/config.
-# 0 = use ssh variables user, host and port from the variables below.
+# 0 = use ssh variables user, host and port from the variables below in this script.
 ssh_config="0"
 
 # if ssh_config => 1 
@@ -33,7 +33,7 @@ rsync_options="--archive --partial --stats --verbose --remove-sent-files"
 rsync_excludelist="/home/coen/hosts-config/proxmox-ve/docker-host/backup_exclude"
 
 # absolute path to source location for tarball with tar.
-tar_sourcepath="/home/coen/docker-home-services/adguard-home"
+tar_sourcepath="/home/coen/docker-home-services/"
 
 # absolute destination path for saving tar file.
 tar_destinationpath="/backup-pool/coen/purge/"
@@ -52,7 +52,6 @@ tar_tempdir="/mnt/slow-storage/temp"
 # number of days to keep tar files on backup.
 # e.g. "+31" will delete tar file(s) older than 31 days, "-1" delete tar file(s) less than 1 day.
 tar_days="+31"
-
 # -----------------------------------------------------------------------------------
 tarball_function () {
 if [ ! -d ${tartempdir} ]; then

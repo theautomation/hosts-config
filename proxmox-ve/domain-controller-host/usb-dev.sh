@@ -1,4 +1,5 @@
 #!/bin/bash
+# script for finding usb paths
 
 for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
     (

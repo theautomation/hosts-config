@@ -91,7 +91,7 @@ sudo apt install zfsutils-linux -y
 2. check if ZFS was installed correctly
 
 ```bash
-whereis zfs
+zfs --version
 ```
 
 3. Check installed drives
@@ -107,6 +107,10 @@ sudo zpool create backup-pool mirror /dev/sdb /dev/sdc -f
 ```
 
 5. Show zpool status
+
+```bash
+sudo zpool list
+```
 
 ```bash
 sudo zpool status
