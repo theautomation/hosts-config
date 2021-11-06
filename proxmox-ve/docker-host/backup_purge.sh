@@ -27,20 +27,20 @@ remote_port=2244
 
 # rsync options in command (optional).
 # more options can be found at https://linux.die.net/man/1/rsync
-rsync_options="--archive --partial --stats --verbose --remove-sent-files"
+rsync_options="--archive --partial --stats --remove-sent-files"
 
 # absolute path of the exclude list location for rsync as external file.
 rsync_excludelist="/home/coen/hosts-config/proxmox-ve/docker-host/backup_exclude"
 
 # absolute path to source location for tarball with tar.
-tar_sourcepath="/home/coen/docker-home-services/adguard-home"
+tar_sourcepath="/home/coen/docker-home-services"
 
 # absolute destination path for saving tar file.
 tar_destinationpath="/backup-pool/coen/purge/"
 
 # tar options in command (optional)
 # more options can be found at https://linux.die.net/man/1/tar
-tar_options="--create --gzip --verbose"
+tar_options="--create --gzip"
 
 # filename of the tar file.
 tar_name="$(date '+%y-%m-%d').tar.gz"
