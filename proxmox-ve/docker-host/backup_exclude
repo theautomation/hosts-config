@@ -8,3 +8,4 @@
 jellyfin/cache/
 node-red/data/node_modules
 omada-controller/logs
+docker-registry/data/

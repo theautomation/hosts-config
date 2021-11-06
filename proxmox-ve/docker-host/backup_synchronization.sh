@@ -5,7 +5,7 @@
 # github@theautomation.nl
 #
 
-set -e
+set -ex
 
 # ----------------------------------------------------------------------------------- 
 # select if ssh configuation from /.ssh/config must be used or not. 
