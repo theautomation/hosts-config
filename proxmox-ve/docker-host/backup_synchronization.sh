@@ -50,7 +50,7 @@ rsync_sourcepaths=(
 rsync_destinationpath="/backup-pool/coen/rsync"
 # -----------------------------------------------------------------------------------
 
-echo "Starting backup of ${rsync_sourcepath}."
+echo "Starting backup of ${rsync_sourcepath}..."
 
 if [ "${ssh_config}" = "1" ]; then
     if [ ! -f "${HOME}"/.ssh/config ]; then
@@ -60,11 +60,12 @@ if [ "${ssh_config}" = "1" ]; then
         echo "Script stopped, ssh_config is set to 1 but backup_host variable is empty."
         exit 3
     else
-        echo "Starting rsync using ssh config file"
+        echo "Starting rsync using ssh config file..."
         for sourcepath in ${rsync_sourcepaths[@]}; do
             rsync ${rsync_options[@]} --exclude-from="${rsync_excludelist}" "${sourcepath}" ${remote_host_from_config}:${rsync_destinationpath}
         done
     fi
+
     echo "Start rsync with <user>, <host>, <port> from .ssh/config..."
 elif [ "${ssh_config}" = "0" ]; then
     if [ -z "${remote_user}" ] || [ -z "${remote_host}" ] || [ -z "${remote_port}" ]; then
