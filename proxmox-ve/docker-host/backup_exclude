@@ -1,9 +1,10 @@
-# exclude path is relative path from 
-#purge home folder = /home/coen/docker-home-services/
-#synchronization home folder = /mnt/slow-storage/coen
+# Exclude path is relative path from
+# Purge home folder = /home/coen/docker-home-services/
+# Synchronization home folder = /mnt/slow-storage/coen
 #                              /mnt/slow-storage/anne
+#
+# Purge
 
-# purge
 .deleted/
 jellyfin/cache/
 node-red/data/node_modules
