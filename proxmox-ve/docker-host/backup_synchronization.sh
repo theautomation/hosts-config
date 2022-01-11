@@ -65,7 +65,6 @@ if [ "${ssh_config}" = "1" ]; then
             rsync ${rsync_options[@]} --exclude-from="${rsync_excludelist}" "${sourcepath}" ${remote_host_from_config}:${rsync_destinationpath}
         done
     fi
-
     echo "Start rsync with <user>, <host>, <port> from .ssh/config..."
 elif [ "${ssh_config}" = "0" ]; then
     if [ -z "${remote_user}" ] || [ -z "${remote_host}" ] || [ -z "${remote_port}" ]; then
