@@ -5,7 +5,7 @@
 # github@theautomation.nl
 #
 
-set -ex
+set -e
 
 # -----------------------------------------------------------------------------------
 # Select if ssh configuation from /.ssh/config must be used or not.
@@ -32,6 +32,7 @@ rsync_options=(
     "--archive"
     "--partial"
     "--stats"
+    "--progress"
     "--verbose"
     "--delete"
 )
@@ -50,7 +51,7 @@ rsync_sourcepaths=(
 rsync_destinationpath="/backup-pool/coen/rsync"
 # -----------------------------------------------------------------------------------
 
-echo "Starting backup of ${rsync_sourcepath}..."
+echo "Starting backup of ${rsync_sourcepaths[@]}..."
 
 if [ "${ssh_config}" = "1" ]; then
     if [ ! -f "${HOME}"/.ssh/config ]; then
