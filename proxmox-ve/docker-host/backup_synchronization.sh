@@ -22,7 +22,7 @@ remote_host_from_config="backup-host"
 # User of the remote host.
 remote_user="coen"
 # Ip address of the remote host.
-remote_host="192.168.30.127"
+remote_host="192.168.1.234"
 # Remote ssh port.
 remote_port=2244
 
@@ -42,13 +42,13 @@ rsync_excludelist="/home/coen/hosts-config/proxmox-ve/docker-host/backup_exclude
 
 # Rsync source path being copied
 rsync_sourcepaths=(
-    "/mnt/slow-storage/coen"
-    "/mnt/slow-storage/anne"
-    "/mnt/slow-storage/temp"
+    "/mnt/R10_S8TB_C120GB/coen"
+    "/mnt/R10_S8TB_C120GB/anne"
+    # "/mnt/R10_S8TB_C120GB/temp"
 )
 
 # Destination path for rsync
-rsync_destinationpath="/backup-pool/coen/rsync"
+rsync_destinationpath="/media/external2"
 # -----------------------------------------------------------------------------------
 
 echo "Starting backup of ${rsync_sourcepaths[@]}..."
