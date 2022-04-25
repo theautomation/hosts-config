@@ -8,8 +8,7 @@
 
 ```
 ├─── proxmox-ve
-│  ├─── docker-host
+│  ├─── kubernetes nodes
 │    ├─── containers
 │  │─── pf-sense
-├─── backup-host
 ```
