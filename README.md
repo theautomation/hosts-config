@@ -6,7 +6,7 @@
 ├─── hypervisor (proxmox-ve)
 │  ├─── kubernetes nodes
 │    ├─── containers
-│  │─── pf-sense
+│  │─── pfSense (firewall)
 ```
 
 ```
