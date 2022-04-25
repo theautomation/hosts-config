@@ -1,3 +1,5 @@
+# Infrastructure as Code
+
 ## hardware hierarchy
 
 ```
@@ -10,3 +12,6 @@
 ```
 ├─── storage-server (truenas)
 ```
+### 1. Setup Proxmox
+
+### 2. Deploy virtual machines with Terraform on Proxmox
