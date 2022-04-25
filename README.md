@@ -3,13 +3,13 @@
 ## hardware hierarchy
 
 ```
-├─── hypervisor (proxmox-ve)
-│  ├─── kubernetes (k3s) master nodes
-│    ├─── control plane
-│    ├─── etcd
-│  ├─── kubernetes (k3s) worker nodes
-│    ├─── containers
-│  │─── pfSense (firewall)
+├───────── hypervisor (proxmox-ve)
+│  ├────── kubernetes (k3s) master nodes
+│    ├──── control plane
+│    ├──── etcd
+│  ├────── kubernetes (k3s) worker nodes
+│    ├──── containers
+│  │────── pfSense (firewall)
 ```
 
 ```
