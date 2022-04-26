@@ -45,3 +45,8 @@ variable "k3s_masters_cores" {
 variable "k3s_workers_cores" {
   default = 8
 }
+
+
+variable "k3s_number_worker_nodes" {
+  default = 1
+}
