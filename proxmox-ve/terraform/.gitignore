@@ -1,0 +1,7 @@
+k3s/.terraform.lock.hcl
+k3s/terraform-plugin-proxmox.log
+k3s/terraform.tfstate
+k3s/terraform.tfstate.backup
+k3s/.terraform/providers/registry.terraform.io/hashicorp/random/3.1.3/linux_amd64/terraform-provider-random_v3.1.3_x5
+k3s/.terraform/providers/registry.terraform.io/telmate/proxmox/2.9.9/linux_amd64/LICENSE
+k3s/.terraform/providers/registry.terraform.io/telmate/proxmox/2.9.9/linux_amd64/terraform-provider-proxmox_v2.9.9
