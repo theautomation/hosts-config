@@ -11,7 +11,7 @@ provider "proxmox" {
   pm_api_url          = "https://proxmox.lan:8006/api2/json"
   pm_tls_insecure     = true
   pm_api_token_id     = "terraform-prov@pve!mytoken"
-  pm_api_token_secret = "<REDACTED>"
+  pm_api_token_secret = var.proxmox_api_token_secret
   pm_parallel         = 1
 }
 
@@ -33,8 +33,6 @@ resource "proxmox_vm_qemu" "k3s-master-01" {
   memory      = var.k3s_masters_memory
   cores       = var.k3s_masters_cores
   cpu         = "host"
-  ssh_user    = "root"
-  sshkeys     = file("${var.ssh_public_key_path}")
 
   network {
     model  = "virtio"
@@ -99,8 +97,6 @@ resource "proxmox_vm_qemu" "k3s-master-02" {
   memory      = var.k3s_masters_memory
   cores       = var.k3s_masters_cores
   cpu         = "host"
-  ssh_user    = "root"
-  sshkeys     = file("${var.ssh_public_key_path}")
 
   network {
     model  = "virtio"
@@ -165,8 +161,6 @@ resource "proxmox_vm_qemu" "k3s-master-03" {
   memory      = var.k3s_masters_memory
   cores       = var.k3s_masters_cores
   cpu         = "host"
-  ssh_user    = "root"
-  sshkeys     = file("${var.ssh_public_key_path}")
 
   network {
     model  = "virtio"

@@ -9,7 +9,7 @@ then
     if [[ $HOSTNAME -eq 'k3s-master-01' ]]
     then
         echo "Installing k3s master and initializing the cluster..." && \
-        curl -sfL https://get.k3s.io | K3S_TOKEN=${k3s_token} sh -s - --write-kubeconfig-mode=644 --cluster-init
+        curl -sfL https://get.k3s.io | K3S_TOKEN=${k3s_token} sh -s - --write-kubeconfig-mode=644 --cluster-init --disable servicelb --disable traefik
     else
         echo "Installing k3s master and joining to cluster..." && \
         curl -sfL https://get.k3s.io | K3S_TOKEN=${k3s_token} sh -s - --write-kubeconfig-mode=644 --server=https://${k3s_cluster_init_ip}:6443

@@ -1,3 +1,6 @@
+variable "proxmox_api_token_secret" {
+}
+
 variable "template_name" {
   default = "k3s-template"
 }
