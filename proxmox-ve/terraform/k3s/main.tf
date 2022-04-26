@@ -15,11 +15,6 @@ provider "proxmox" {
   pm_parallel         = 1
 }
 
-resource "random_password" "k3s_token" {
-  length  = 48
-  special = false
-}
-
 resource "proxmox_vm_qemu" "k3s-master-01" {
   name        = "k3s-master-01"
   vmid        = 211
@@ -59,14 +54,14 @@ resource "proxmox_vm_qemu" "k3s-master-01" {
     type        = "ssh"
     user        = "coen"
     private_key = file("${var.ssh_private_key_path}")
-    host        = self.default_ipv4_address
+    host        = var.k3s_master_01
   }
 
   provisioner "file" {
     destination = "/tmp/k3s_bootstrap.sh"
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
-        k3s_token           = random_password.k3s_token.result,
+        k3s_token           = var.k3s_token,
         k3s_cluster_init_ip = var.k3s_master_01
       }
     )
@@ -132,7 +127,7 @@ resource "proxmox_vm_qemu" "k3s-master-02" {
     destination = "/tmp/k3s_bootstrap.sh"
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
-        k3s_token           = random_password.k3s_token.result,
+        k3s_token           = var.k3s_token,
         k3s_cluster_init_ip = var.k3s_master_01
       }
     )
@@ -150,7 +145,7 @@ resource "proxmox_vm_qemu" "k3s-master-02" {
 resource "proxmox_vm_qemu" "k3s-master-03" {
 
   depends_on = [
-    proxmox_vm_qemu.k3s-master-01[0]
+    proxmox_vm_qemu.k3s-master-02[0]
   ]
 
   name        = "k3s-master-03"
@@ -198,7 +193,7 @@ resource "proxmox_vm_qemu" "k3s-master-03" {
     destination = "/tmp/k3s_bootstrap.sh"
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
-        k3s_token           = random_password.k3s_token.result,
+        k3s_token           = var.k3s_token,
         k3s_cluster_init_ip = var.k3s_master_01
       }
     )
@@ -216,10 +211,11 @@ resource "proxmox_vm_qemu" "k3s-master-03" {
 resource "proxmox_vm_qemu" "k3s-workers" {
 
   depends_on = [
-    proxmox_vm_qemu.k3s-master-01[0]
+    proxmox_vm_qemu.k3s-master-03[0]
   ]
 
   name        = "k3s-worker-0${count.index + 1}"
+  vmid        = "2${count.index + 14}"
   ipconfig0   = "ip=192.168.1.${count.index + 14}/24,gw=${var.gateway}"
   nameserver  = var.gateway
   count       = var.k3s_number_worker_nodes
@@ -227,8 +223,8 @@ resource "proxmox_vm_qemu" "k3s-workers" {
   clone       = var.template_name
   os_type     = "cloud-init"
   agent       = 1
-  memory      = var.k3s_masters_memory
-  cores       = var.k3s_masters_cores
+  memory      = var.k3s_workers_memory
+  cores       = var.k3s_workers_cores
   cpu         = "host"
 
   sshkeys = file("${var.ssh_public_key_path}")
@@ -256,14 +252,14 @@ resource "proxmox_vm_qemu" "k3s-workers" {
     type        = "ssh"
     user        = "coen"
     private_key = file("${var.ssh_private_key_path}")
-    host        = "k3s-worker-0${count.index + 1}"
+    host        = "192.168.1.${count.index + 14}"
   }
 
   provisioner "file" {
     destination = "/tmp/k3s_bootstrap.sh"
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
-        k3s_token           = random_password.k3s_token.result,
+        k3s_token           = var.k3s_token,
         k3s_cluster_init_ip = var.k3s_master_01
       }
     )
