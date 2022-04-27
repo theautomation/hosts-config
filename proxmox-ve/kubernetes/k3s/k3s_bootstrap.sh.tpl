@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# Add manifests
+mkdir -p /var/lib/rancher/k3s/server/manifests/
+mv /tmp/metallb-manifest.yaml /var/lib/rancher/k3s/server/manifests/metallb-manifest.yaml
+
 if [[ $HOSTNAME =~ ^k3s-master-* ]]
 then
-    # Master
+    # Setup masters
     if [[ $HOSTNAME -eq 'k3s-master-01' ]]
     then
         echo "Installing k3s master and initializing the cluster..." && \
@@ -13,7 +17,7 @@ then
     fi
     sleep 20 && echo "Installing k3s on $HOSTNAME done."
 else
-    # Worker
+    # Setup workers
     echo "Installing k3s workers and joining to cluster..." && \
     curl -sfL https://get.k3s.io | K3S_URL=https://${k3s_cluster_init_ip}:6443 K3S_TOKEN=${k3s_token} sh -
 fi

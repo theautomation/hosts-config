@@ -13,12 +13,13 @@ provider "proxmox" {
   pm_api_token_id     = "terraform-prov@pve!mytoken"
   pm_api_token_secret = var.proxmox_api_token_secret
   pm_parallel         = 1
+  pm_timeout          = 600
 }
 
 resource "proxmox_vm_qemu" "k3s-master-01" {
   name        = "k3s-master-01"
   vmid        = 211
-  ipconfig0   = "ip=${var.k3s_master_01}/24,gw=${var.gateway}"
+  ipconfig0   = var.ipconfig
   nameserver  = var.gateway
   count       = 1
   target_node = "pve"
@@ -54,7 +55,12 @@ resource "proxmox_vm_qemu" "k3s-master-01" {
     type        = "ssh"
     user        = "coen"
     private_key = file("${var.ssh_private_key_path}")
-    host        = var.k3s_master_01
+    host        = self.default_ipv4_address
+  }
+
+  provisioner "file" {
+    source      = "manifests/metallb_manifest.yaml"
+    destination = "/tmp/metallb_manifest.yaml"
   }
 
   provisioner "file" {
@@ -62,7 +68,7 @@ resource "proxmox_vm_qemu" "k3s-master-01" {
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
         k3s_token           = var.k3s_token,
-        k3s_cluster_init_ip = var.k3s_master_01
+        k3s_cluster_init_ip = proxmox_vm_qemu.k3s-master-01[0].default_ipv4_address
       }
     )
   }
@@ -76,6 +82,8 @@ resource "proxmox_vm_qemu" "k3s-master-01" {
   }
 }
 
+
+
 resource "proxmox_vm_qemu" "k3s-master-02" {
 
   depends_on = [
@@ -84,7 +92,7 @@ resource "proxmox_vm_qemu" "k3s-master-02" {
 
   name        = "k3s-master-02"
   vmid        = 212
-  ipconfig0   = "ip=${var.k3s_master_02}/24,gw=${var.gateway}"
+  ipconfig0   = var.ipconfig
   nameserver  = var.gateway
   count       = 1
   target_node = "pve"
@@ -120,7 +128,7 @@ resource "proxmox_vm_qemu" "k3s-master-02" {
     type        = "ssh"
     user        = "coen"
     private_key = file("${var.ssh_private_key_path}")
-    host        = var.k3s_master_02
+    host        = self.default_ipv4_address
   }
 
   provisioner "file" {
@@ -128,7 +136,7 @@ resource "proxmox_vm_qemu" "k3s-master-02" {
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
         k3s_token           = var.k3s_token,
-        k3s_cluster_init_ip = var.k3s_master_01
+        k3s_cluster_init_ip = proxmox_vm_qemu.k3s-master-01[0].default_ipv4_address
       }
     )
   }
@@ -150,7 +158,7 @@ resource "proxmox_vm_qemu" "k3s-master-03" {
 
   name        = "k3s-master-03"
   vmid        = 213
-  ipconfig0   = "ip=${var.k3s_master_03}/24,gw=${var.gateway}"
+  ipconfig0   = var.ipconfig
   nameserver  = var.gateway
   count       = 1
   target_node = "pve"
@@ -186,7 +194,7 @@ resource "proxmox_vm_qemu" "k3s-master-03" {
     type        = "ssh"
     user        = "coen"
     private_key = file("${var.ssh_private_key_path}")
-    host        = var.k3s_master_03
+    host        = self.default_ipv4_address
   }
 
   provisioner "file" {
@@ -194,7 +202,7 @@ resource "proxmox_vm_qemu" "k3s-master-03" {
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
         k3s_token           = var.k3s_token,
-        k3s_cluster_init_ip = var.k3s_master_01
+        k3s_cluster_init_ip = proxmox_vm_qemu.k3s-master-01[0].default_ipv4_address
       }
     )
   }
@@ -216,7 +224,7 @@ resource "proxmox_vm_qemu" "k3s-workers" {
 
   name        = "k3s-worker-0${count.index + 1}"
   vmid        = "2${count.index + 14}"
-  ipconfig0   = "ip=192.168.1.${count.index + 14}/24,gw=${var.gateway}"
+  ipconfig0   = var.ipconfig
   nameserver  = var.gateway
   count       = var.k3s_number_worker_nodes
   target_node = "pve"
@@ -252,7 +260,7 @@ resource "proxmox_vm_qemu" "k3s-workers" {
     type        = "ssh"
     user        = "coen"
     private_key = file("${var.ssh_private_key_path}")
-    host        = "192.168.1.${count.index + 14}"
+    host        = self.default_ipv4_address
   }
 
   provisioner "file" {
@@ -260,7 +268,7 @@ resource "proxmox_vm_qemu" "k3s-workers" {
     content = templatefile("k3s_bootstrap.sh.tpl",
       {
         k3s_token           = var.k3s_token,
-        k3s_cluster_init_ip = var.k3s_master_01
+        k3s_cluster_init_ip = proxmox_vm_qemu.k3s-master-01[0].default_ipv4_address
       }
     )
   }
