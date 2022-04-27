@@ -9,8 +9,16 @@ variable "k3s_token" {
   default = "LfaqC64u9Sa7e47"
 }
 
-variable "ipconfig" {
-  default = "ip=dhcp"
+variable "k3s_master_01" {
+  default = "192.168.1.11"
+}
+
+variable "k3s_master_02" {
+  default = "192.168.1.12"
+}
+
+variable "k3s_master_03" {
+  default = "192.168.1.13"
 }
 
 variable "gateway" {
