@@ -1,5 +1,5 @@
-k3s/.terraform.lock.hcl
-k3s/terraform-plugin-proxmox.log
-k3s/terraform.tfstate
-k3s/terraform.tfstate.backup
-k3s/.terraform/**/*
+kubernetes/.terraform.lock.hcl
+kubernetes/terraform-plugin-proxmox.log
+kubernetes/terraform.tfstate
+kubernetes/terraform.tfstate.backup
+kubernetes/.terraform/**/*
