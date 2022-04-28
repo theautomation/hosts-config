@@ -5,10 +5,6 @@ variable "template_name" {
   default = "k3s-template"
 }
 
-variable "k3s_token" {
-  default = "LfaqC64u9Sa7e47"
-}
-
 variable "k3s_master_01" {
   default = "192.168.1.11"
 }

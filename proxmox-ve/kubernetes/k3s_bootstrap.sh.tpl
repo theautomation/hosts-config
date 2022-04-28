@@ -6,6 +6,18 @@ sudo apt install -y libnfs-utils
 # ISCSI
 sudo apt-get install -y open-iscsi lsscsi sg3-utils multipath-tools scsitools
 
+sudo tee /etc/multipath.conf <<-'EOF'
+defaults {
+    user_friendly_names yes
+    find_multipaths yes
+}
+EOF
+
+sudo systemctl enable multipath-tools.service
+sudo service multipath-tools restart
+sudo systemctl enable open-iscsi.service
+sudo service open-iscsi start
+
 if [[ $HOSTNAME =~ ^k3s-master-* ]]
 then
     # Setup masters
