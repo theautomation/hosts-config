@@ -1,1 +1,7 @@
 **/.terraform.tfstate.lock.info
+proxmox-ve/kubernetes/.terraform.lock.hcl
+proxmox-ve/kubernetes/registry.terraform.io/telmate/proxmox/2.9.9/linux_amd64/terraform-provider-proxmox_v2.9.9
+proxmox-ve/kubernetes/terraform.tfstate
+proxmox-ve/kubernetes/terraform.tfstate.backup
+proxmox-ve/kubernetes/registry.terraform.io/hashicorp/random/3.1.3/linux_amd64/terraform-provider-random_v3.1.3_x5
+proxmox-ve/kubernetes/registry.terraform.io/telmate/proxmox/2.9.9/linux_amd64/LICENSE

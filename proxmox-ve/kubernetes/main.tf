@@ -59,7 +59,7 @@ resource "proxmox_vm_qemu" "k3s-master-01" {
   }
 
   provisioner "file" {
-    source      = "manifests"
+    source      = "manifests/"
     destination = "/tmp"
   }
 
