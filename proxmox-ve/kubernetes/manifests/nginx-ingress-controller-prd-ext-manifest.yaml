@@ -1,4 +1,10 @@
 ---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: prd-ext
+
+---
 kind: ServiceAccount
 apiVersion: v1
 metadata:

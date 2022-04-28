@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# NFS
+sudo apt install -y libnfs-utils
+
+# ISCSI
+sudo apt-get install -y open-iscsi lsscsi sg3-utils multipath-tools scsitools
+
 if [[ $HOSTNAME =~ ^k3s-master-* ]]
 then
     # Setup masters
@@ -7,7 +13,7 @@ then
     then
         # Add manifests
         mkdir -p /var/lib/rancher/k3s/server/manifests/
-        mv /tmp/metallb-manifest.yaml /var/lib/rancher/k3s/server/manifests/metallb-manifest.yaml
+        cp /tmp/*.yaml /var/lib/rancher/k3s/server/manifests/
         echo "Installing k3s master and initializing the cluster..." && \
         curl -sfL https://get.k3s.io | K3S_TOKEN=${k3s_token} sh -s - --write-kubeconfig-mode=644 --no-deploy servicelb --no-deploy traefik --no-deploy servicelb --cluster-init
     else
