@@ -3,3 +3,4 @@ kubernetes/terraform-plugin-proxmox.log
 kubernetes/terraform.tfstate
 kubernetes/terraform.tfstate.backup
 kubernetes/.terraform/**/*
+kubernetes/registry.terraform.io/**
