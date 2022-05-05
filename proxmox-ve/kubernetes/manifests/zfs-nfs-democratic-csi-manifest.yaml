@@ -274,7 +274,7 @@ metadata:
     app.kubernetes.io/name: democratic-csi
     app.kubernetes.io/instance: zfs-nfs
 provisioner: org.democratic-csi.nfs
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
 parameters:

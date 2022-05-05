@@ -279,7 +279,7 @@ metadata:
     app.kubernetes.io/name: democratic-csi
     app.kubernetes.io/instance: zfs-iscsi
 provisioner: org.democratic-csi.iscsi
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
 parameters:
