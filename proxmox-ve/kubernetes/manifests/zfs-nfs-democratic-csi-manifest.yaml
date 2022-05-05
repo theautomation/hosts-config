@@ -13,9 +13,7 @@ metadata:
   namespace: democratic-csi
   labels:
     app.kubernetes.io/name: democratic-csi
-
     app.kubernetes.io/instance: zfs-nfs
-
 stringData:
   driver-config-file.yaml: |-
     driver: freenas-nfs
